@@ -9,8 +9,9 @@ export class TrainersController {
   constructor(private readonly trainersService: TrainersService) {}
 
   @Get()
-  async findAll(@Query('details') details: boolean) {
-    const trainers = await this.trainersService.findAll(details).then();
+  async findAll(@Query('details') details: boolean, @Query('name') name: string) {
+    const filters: Partial<TrainerModel> = { name };
+    const trainers = await this.trainersService.findAll(details, filters);
     return trainers.map(trainer => this.trainerToJson(trainer, details));
   }
 

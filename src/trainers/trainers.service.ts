@@ -1,4 +1,4 @@
-import { ClientSession, Model } from 'mongoose';
+import { ClientSession, FilterQuery, Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TrainerCollection, TrainerDocument, TrainerModel } from './schemas/trainer.schema';
@@ -16,8 +16,13 @@ export class TrainersService {
     private readonly trainerReviewDocument: Model<TrainerReviewDocument>,
   ) {}
 
-  async findAll(details: boolean): Promise<TrainerDocument[]> {
-    const query = this.trainerDocument.find();
+  async findAll(details: boolean, filters: Partial<TrainerModel>): Promise<TrainerDocument[]> {
+    const filterQuery: FilterQuery<TrainerDocument> = {};
+    if (filters.name) {
+      filterQuery.name = new RegExp(filters.name, 'i');
+    }
+
+    const query = this.trainerDocument.find(filterQuery);
     if (details) {
       query.populate('details');
     }

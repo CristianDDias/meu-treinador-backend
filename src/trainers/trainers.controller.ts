@@ -1,58 +1,76 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, BadRequestException, NotFoundException } from '@nestjs/common';
 import { TrainersService } from './trainers.service';
-import { Trainer } from 'src/interfaces/trainer.interface';
-import { TrainerExpanded } from 'src/interfaces/trainer-expanded.interface';
-import { TrainerLocation } from 'src/interfaces/trainer-location.interface';
-import { TrainerSchedule } from 'src/interfaces/trainer-schedule.interface';
-import { TrainerReview } from 'src/interfaces/trainer-review.interface';
+import { TrainerCollection, TrainerDocument, TrainerModel } from './schemas/trainer.schema';
+import { TrainerReviewDocument } from './schemas/trainer-review.schema';
+import { trainerValidationSchema } from './schemas/validations/trainer.validation';
 
 @Controller('trainers')
 export class TrainersController {
-  private readonly trainersService: TrainersService;
-
-  constructor(trainersService: TrainersService) {
-    this.trainersService = trainersService;
-  }
+  constructor(private readonly trainersService: TrainersService) {}
 
   @Get()
-  findAll(@Query('expand') expand: boolean): Trainer[] | TrainerExpanded[] {
-    const result = this.trainersService.findAll();
-    if (expand) {
-      return result;
-    }
-    return result.map(this.extractTrainerFromTrainerExpanded);
+  async findAll(@Query('details') details: boolean) {
+    const trainers = await this.trainersService.findAll(details).then();
+    return trainers.map(trainer => this.trainerToJson(trainer, details));
   }
 
   @Get(':id')
-  findById(@Param('id') id: string, @Query('expand') expand: boolean): Trainer | TrainerExpanded {
-    const result = this.trainersService.findById(id);
-    if (expand) {
-      return result;
+  async findById(@Param('id') id: string, @Query('details') details: boolean) {
+    const trainer = await this.trainersService.findById(id, details);
+    if (!trainer) {
+      throw new NotFoundException('Trainer not found');
     }
-    return this.extractTrainerFromTrainerExpanded(result);
-  }
-
-  @Get(':id/locations')
-  findLocations(@Param('id') id: string): TrainerLocation[] {
-    const result = this.trainersService.findById(id);
-    return result.locations;
-  }
-
-  @Get(':id/schedules')
-  findSchedules(@Param('id') id: string): TrainerSchedule[] {
-    const result = this.trainersService.findById(id);
-    return result.schedules;
+    return this.trainerToJson(trainer, details);
   }
 
   @Get(':id/reviews')
-  findReviews(@Param('id') id: string): TrainerReview[] {
-    const result = this.trainersService.findById(id);
-    return result.reviews;
+  async findReviews(@Param('id') id: string) {
+    const reviews = await this.trainersService.findReviews(id);
+    return reviews.map(this.trainerReviewToJson);
   }
 
-  private extractTrainerFromTrainerExpanded(trainerExpanded: TrainerExpanded): Trainer {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { locations, schedules, reviews, ...trainer } = trainerExpanded;
-    return trainer;
+  @Post()
+  async create(@Body() trainerDTO: TrainerModel) {
+    try {
+      await trainerValidationSchema.validateAsync(trainerDTO);
+      const trainer = await this.trainersService.create(trainerDTO);
+      return this.trainerToJson(trainer, true);
+    } catch (error) {
+      throw new BadRequestException(error.toString());
+    }
+  }
+
+  private trainerToJson(trainer: TrainerDocument, details: boolean) {
+    return trainer.toJSON({
+      virtuals: true,
+      transform: (doc, ret) => {
+        const collection = doc?.collection?.collectionName;
+
+        if (collection === TrainerCollection && !details) {
+          delete ret.details;
+        }
+
+        if (collection !== TrainerCollection) {
+          delete ret.id;
+        }
+
+        delete ret._id;
+        delete ret.__v;
+
+        return ret;
+      },
+    });
+  }
+
+  private trainerReviewToJson(trainerReview: TrainerReviewDocument) {
+    return trainerReview.toJSON({
+      virtuals: true,
+      transform: (_, ret) => {
+        delete ret._id;
+        delete ret.__v;
+        delete ret.trainer;
+        return ret;
+      },
+    });
   }
 }

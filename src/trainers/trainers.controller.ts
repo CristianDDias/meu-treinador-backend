@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Param, Query, Body, BadRequestException, NotFoundException } from '@nestjs/common';
 import { TrainersService } from './trainers.service';
-import { TrainerCollection, TrainerDocument, TrainerModel } from './schemas/trainer.schema';
+import { TrainerCollection, TrainerDocument } from './schemas/trainer.schema';
 import { TrainerReviewDocument } from './schemas/trainer-review.schema';
-import { validateTrainer } from './schemas/validations/trainer.validation';
+import { TrainerModel } from './interfaces/trainer.interface';
+import { validateTrainer } from './validations/trainer.validation';
 
 @Controller('trainers')
 export class TrainersController {
@@ -31,10 +32,10 @@ export class TrainersController {
   }
 
   @Post()
-  async create(@Body() trainerDTO: TrainerModel) {
+  async create(@Body() trainerDto: TrainerModel) {
     try {
-      await validateTrainer(trainerDTO);
-      const trainer = await this.trainersService.create(trainerDTO);
+      await validateTrainer(trainerDto);
+      const trainer = await this.trainersService.create(trainerDto);
       return this.trainerToJson(trainer, true);
     } catch (error) {
       throw new BadRequestException(error.toString());

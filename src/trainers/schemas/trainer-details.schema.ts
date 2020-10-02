@@ -1,4 +1,5 @@
 import { Document, Schema } from 'mongoose';
+import { TrainerDetailsModel } from '../interfaces/trainer.interface';
 
 export const TrainerDetailsCollection = 'trainers-details';
 
@@ -33,28 +34,5 @@ export const TrainerDetailsSchema = new Schema(
     collection: TrainerDetailsCollection,
   },
 );
-
-export interface TrainerDetailsModel {
-  qualifications: string;
-  specialities: string[];
-  contacts: {
-    email: string;
-    whatsapp: string;
-  };
-  locations: {
-    isAttendingOnline: boolean;
-    isAttendingHome: boolean;
-    cities: {
-      city: string;
-      state: string;
-      places: string[];
-    }[];
-  };
-  schedules: {
-    weekday: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
-    startTime: Date;
-    endTime: Date;
-  }[];
-}
 
 export interface TrainerDetailsDocument extends TrainerDetailsModel, Document {}

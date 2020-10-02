@@ -1,5 +1,6 @@
 import { Document, Schema } from 'mongoose';
-import { TrainerDetailsCollection, TrainerDetailsDocument, TrainerDetailsModel } from './trainer-details.schema';
+import { TrainerDetailsCollection, TrainerDetailsDocument } from './trainer-details.schema';
+import { TrainerModel } from '../interfaces/trainer.interface';
 
 export const TrainerCollection = 'trainers';
 
@@ -21,17 +22,6 @@ export const TrainerSchema = new Schema(
     collection: TrainerCollection,
   },
 );
-
-export interface TrainerModel {
-  name: string;
-  description: string;
-  image: string;
-  rating: {
-    value: number;
-    reviews: number;
-  };
-  details: TrainerDetailsModel;
-}
 
 export interface TrainerDocument extends Omit<TrainerModel, 'details'>, Document {
   details: TrainerDetailsDocument;

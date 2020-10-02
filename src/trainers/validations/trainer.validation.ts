@@ -1,6 +1,13 @@
 import * as Joi from 'joi';
-import { TrainerModel } from '../trainer.schema';
-import { TrainerDetailsModel } from '../trainer-details.schema';
+import {
+  TrainerModel,
+  TrainerRatingModel,
+  TrainerDetailsModel,
+  TrainerContactsModel,
+  TrainerLocationsModel,
+  TrainerCityModel,
+  TrainerScheduleModel,
+} from '../interfaces/trainer.interface';
 
 const schema = Joi.object<TrainerModel>({
   name: Joi.string().required(),
@@ -9,7 +16,7 @@ const schema = Joi.object<TrainerModel>({
 
   image: Joi.string().required(),
 
-  rating: Joi.object<TrainerModel['rating']>({
+  rating: Joi.object<TrainerRatingModel>({
     value: Joi.number().required(),
     reviews: Joi.number().required(),
   }).required(),
@@ -21,19 +28,19 @@ const schema = Joi.object<TrainerModel>({
       .items(Joi.string())
       .required(),
 
-    contacts: Joi.object<TrainerDetailsModel['contacts']>({
+    contacts: Joi.object<TrainerContactsModel>({
       email: Joi.string(),
       whatsapp: Joi.string(),
     })
       .required()
       .or('email', 'whatsapp'),
 
-    locations: Joi.object<TrainerDetailsModel['locations']>({
+    locations: Joi.object<TrainerLocationsModel>({
       isAttendingOnline: Joi.boolean().required(),
       isAttendingHome: Joi.boolean().required(),
       cities: Joi.array()
         .items(
-          Joi.object({
+          Joi.object<TrainerCityModel>({
             city: Joi.string().required(),
             state: Joi.string().required(),
             places: Joi.array().items(Joi.string()),
@@ -44,7 +51,7 @@ const schema = Joi.object<TrainerModel>({
 
     schedules: Joi.array()
       .items(
-        Joi.object({
+        Joi.object<TrainerScheduleModel>({
           weekday: Joi.string()
             .valid('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
             .required(),
@@ -56,6 +63,6 @@ const schema = Joi.object<TrainerModel>({
   }).required(),
 });
 
-export const validateTrainer = async (value: any): Promise<void> => {
+export const validateTrainer = async (value: TrainerModel): Promise<void> => {
   await schema.validateAsync(value);
 };

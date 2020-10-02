@@ -1,9 +1,10 @@
 import { ClientSession, FilterQuery, Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { TrainerCollection, TrainerDocument, TrainerModel } from './schemas/trainer.schema';
-import { TrainerDetailsCollection, TrainerDetailsDocument, TrainerDetailsModel } from './schemas/trainer-details.schema';
+import { TrainerCollection, TrainerDocument } from './schemas/trainer.schema';
+import { TrainerDetailsCollection, TrainerDetailsDocument } from './schemas/trainer-details.schema';
 import { TrainerReviewCollection, TrainerReviewDocument } from './schemas/trainer-review.schema';
+import { TrainerModel, TrainerDetailsModel } from './interfaces/trainer.interface';
 
 @Injectable()
 export class TrainersService {

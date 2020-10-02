@@ -2,7 +2,7 @@ import * as Joi from 'joi';
 import { TrainerModel } from '../trainer.schema';
 import { TrainerDetailsModel } from '../trainer-details.schema';
 
-export const validateTrainerSchema = Joi.object<TrainerModel>({
+const schema = Joi.object<TrainerModel>({
   name: Joi.string().required(),
 
   description: Joi.string().required(),
@@ -54,4 +54,8 @@ export const validateTrainerSchema = Joi.object<TrainerModel>({
       )
       .required(),
   }).required(),
-}).validateAsync;
+});
+
+export const validateTrainer = async (value: any): Promise<void> => {
+  await schema.validateAsync(value);
+};

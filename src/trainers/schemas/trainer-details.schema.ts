@@ -57,4 +57,4 @@ export interface TrainerDetailsModel {
   }[];
 }
 
-export type TrainerDetailsDocument = TrainerDetailsModel & Document;
+export interface TrainerDetailsDocument extends TrainerDetailsModel, Document {}

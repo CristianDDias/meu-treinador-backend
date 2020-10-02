@@ -27,4 +27,6 @@ export interface TrainerReviewModel {
   createdAt: Date;
 }
 
-export type TrainerReviewDocument = TrainerReviewModel & Document & { trainer: TrainerDocument };
+export interface TrainerReviewDocument extends Omit<TrainerReviewModel, 'trainer'>, Document {
+  trainer: TrainerDocument;
+}

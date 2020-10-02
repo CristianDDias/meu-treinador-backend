@@ -2,7 +2,7 @@ import { Controller, Get, Post, Param, Query, Body, BadRequestException, NotFoun
 import { TrainersService } from './trainers.service';
 import { TrainerCollection, TrainerDocument, TrainerModel } from './schemas/trainer.schema';
 import { TrainerReviewDocument } from './schemas/trainer-review.schema';
-import { trainerValidationSchema } from './schemas/validations/trainer.validation';
+import { validateTrainerSchema } from './schemas/validations/trainer.validation';
 
 @Controller('trainers')
 export class TrainersController {
@@ -33,7 +33,7 @@ export class TrainersController {
   @Post()
   async create(@Body() trainerDTO: TrainerModel) {
     try {
-      await trainerValidationSchema.validateAsync(trainerDTO);
+      await validateTrainerSchema(trainerDTO);
       const trainer = await this.trainersService.create(trainerDTO);
       return this.trainerToJson(trainer, true);
     } catch (error) {
@@ -46,18 +46,14 @@ export class TrainersController {
       virtuals: true,
       transform: (doc, ret) => {
         const collection = doc?.collection?.collectionName;
-
         if (collection === TrainerCollection && !details) {
           delete ret.details;
         }
-
         if (collection !== TrainerCollection) {
           delete ret.id;
         }
-
         delete ret._id;
         delete ret.__v;
-
         return ret;
       },
     });

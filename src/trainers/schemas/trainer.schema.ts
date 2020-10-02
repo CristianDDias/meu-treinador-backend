@@ -33,4 +33,6 @@ export interface TrainerModel {
   details: TrainerDetailsModel;
 }
 
-export type TrainerDocument = TrainerModel & Document & { details: TrainerDetailsDocument };
+export interface TrainerDocument extends Omit<TrainerModel, 'details'>, Document {
+  details: TrainerDetailsDocument;
+}

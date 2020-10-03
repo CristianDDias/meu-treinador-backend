@@ -6,7 +6,7 @@ export const TrainerDetailsCollection = 'trainers-details';
 export const TrainerDetailsSchema = new Schema(
   {
     qualifications: String,
-    specialities: [String],
+    specialties: [String],
     contacts: {
       email: String,
       whatsapp: String,
@@ -25,8 +25,8 @@ export const TrainerDetailsSchema = new Schema(
     schedules: [
       {
         weekday: String,
-        startTime: Date,
-        endTime: Date,
+        startTime: String,
+        endTime: String,
       },
     ],
   },

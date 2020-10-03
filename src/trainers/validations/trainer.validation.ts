@@ -24,7 +24,7 @@ const schema = Joi.object<TrainerModel>({
   details: Joi.object<TrainerDetailsModel>({
     qualifications: Joi.string().required(),
 
-    specialities: Joi.array()
+    specialties: Joi.array()
       .items(Joi.string())
       .required(),
 
@@ -55,8 +55,12 @@ const schema = Joi.object<TrainerModel>({
           weekday: Joi.string()
             .valid('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
             .required(),
-          startTime: Joi.date().required(),
-          endTime: Joi.date().required(),
+          startTime: Joi.string()
+            .pattern(/(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/)
+            .required(),
+          endTime: Joi.string()
+            .pattern(/(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/)
+            .required(),
         }).required(),
       )
       .required(),

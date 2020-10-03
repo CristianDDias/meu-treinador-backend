@@ -13,7 +13,7 @@ export interface TrainerRatingModel {
 
 export interface TrainerDetailsModel {
   qualifications: string;
-  specialities: string[];
+  specialties: string[];
   contacts: TrainerContactsModel;
   locations: TrainerLocationsModel;
   schedules: TrainerScheduleModel[];
@@ -38,13 +38,13 @@ export interface TrainerCityModel {
 
 export interface TrainerScheduleModel {
   weekday: Weekday;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
 }
 
 export interface TrainerReviewModel {
   trainer: TrainerModel;
-  author: string;
+  author: string; // TODO: Should be a User
   rating: number;
   description: string;
   createdAt: Date;

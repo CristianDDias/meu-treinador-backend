@@ -56,10 +56,10 @@ const schema = Joi.object<TrainerModel>({
             .valid('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
             .required(),
           startTime: Joi.string()
-            .pattern(/(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/)
+            .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
             .required(),
           endTime: Joi.string()
-            .pattern(/(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/)
+            .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
             .required(),
         }).required(),
       )

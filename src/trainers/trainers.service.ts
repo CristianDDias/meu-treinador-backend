@@ -61,14 +61,7 @@ export class TrainersService {
     const session = await this.trainerDocument.db.startSession();
     try {
       await session.withTransaction(async () => {
-        newTrainer = await this.createTrainer(
-          session,
-          trainer,
-          await this.createTrainerDetails(
-            session,
-            trainer.details
-          ),
-        );
+        newTrainer = await this.createTrainer(session, trainer, await this.createTrainerDetails(session, trainer.details));
       });
     } catch (error) {
       errorMessage = error.message;
@@ -84,16 +77,10 @@ export class TrainersService {
   }
 
   private async createTrainer(session: ClientSession, trainer: TrainerModel, trainerDetails: TrainerDetailsDocument) {
-    return (await this.trainerDocument.create(
-      [{ ...trainer, details: trainerDetails }],
-      { session })
-    )[0];
+    return (await this.trainerDocument.create([{ ...trainer, details: trainerDetails }], { session }))[0];
   }
 
   private async createTrainerDetails(session: ClientSession, trainerDetails: TrainerDetailsModel) {
-    return (await this.trainerDetailsDocument.create(
-      [trainerDetails],
-      { session })
-    )[0];
+    return (await this.trainerDetailsDocument.create([trainerDetails], { session }))[0];
   }
 }

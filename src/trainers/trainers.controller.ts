@@ -13,7 +13,7 @@ export class TrainersController {
   async findAll(@Query('details') details: boolean, @Query('name') name: string) {
     const filters: Partial<TrainerModel> = { name };
     const trainers = await this.trainersService.findAll(details, filters);
-    return trainers.map(trainer => this.trainerToJson(trainer, details));
+    return trainers.map((trainer) => this.trainerToJson(trainer, details));
   }
 
   @Get(':id')

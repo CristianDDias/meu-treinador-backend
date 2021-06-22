@@ -17,7 +17,7 @@ const toEntity = (trainer: TrainerDocument): TrainerEntity => {
         delete ret.__v;
         return ret;
       },
-    }),
+    }) as any,
   );
 };
 
@@ -40,10 +40,7 @@ export class TrainerRepositoryImpl implements TrainerRepository {
 
   async findById(id: string): Promise<TrainerEntity | undefined> {
     try {
-      const trainer = await this.trainerModel
-        .findById(id)
-        .populate('details')
-        .exec();
+      const trainer = await this.trainerModel.findById(id).populate('details').exec();
       return trainer ? toEntity(trainer) : undefined;
     } catch {
       return undefined;

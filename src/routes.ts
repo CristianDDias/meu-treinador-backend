@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { ControllerRouter } from './shared/infrastructure/http/controller/controller-router';
 
 import { CreateTrainerController } from './trainer/interface/controller/create-trainer-controller';
+import { CreateTrainerReviewController } from './trainer/interface/controller/create-trainer-review-controller';
 import { GetTrainerByIdController } from './trainer/interface/controller/get-trainer-by-id-controller';
 import { GetTrainersController } from './trainer/interface/controller/get-trainers-controller';
 import { GetTrainerReviewsController } from './trainer/interface/controller/get-trainer-reviews-controller';
@@ -16,6 +17,7 @@ export const createRouter = (): Router[] => {
   const controllerRouter = container.resolve(ControllerRouter);
   return [
     controllerRouter.creteRoute(container.resolve(CreateTrainerController)),
+    controllerRouter.creteRoute(container.resolve(CreateTrainerReviewController)),
     controllerRouter.creteRoute(container.resolve(GetTrainerByIdController)),
     controllerRouter.creteRoute(container.resolve(GetTrainersController)),
     controllerRouter.creteRoute(container.resolve(GetTrainerReviewsController)),

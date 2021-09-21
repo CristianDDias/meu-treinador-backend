@@ -40,11 +40,9 @@ export class TrainerEntity implements Trainer {
     if (guardResult.error) {
       throw new Error(`Trainer validation failed: ${guardResult.message}`);
     }
-
     if (!id && props.rating) {
-      throw new Error('Trainer validation failed: it is not allowed to inform "rating" for a new trainer');
+      throw new Error('Trainer validation failed: rating should be empty for a new trainer');
     }
-
     return new TrainerEntity(props, id);
   }
 }

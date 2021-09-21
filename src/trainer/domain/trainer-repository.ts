@@ -6,7 +6,7 @@ export interface TrainerQuery {
 }
 
 export interface TrainerQueryFilter {
-  name?: string | RegExp;
+  name?: string;
 }
 
 export interface TrainerQueryPagination {
@@ -20,6 +20,7 @@ export interface TrainerRepository {
   findAllById(ids: string[]): Promise<TrainerEntity[]>;
   count(filter?: TrainerQueryFilter): Promise<number>;
   create(trainer: TrainerEntity): Promise<void>;
+  update(trainer: TrainerEntity): Promise<void>;
 }
 
 export const TrainerRepositoryToken = 'TrainerRepository';

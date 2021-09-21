@@ -26,9 +26,7 @@ export class GetTrainersController implements Controller {
     const { page, limit, name } = params;
 
     const { results, total } = await this.useCase.execute({
-      filter: {
-        name: name ? new RegExp(name, 'i') : undefined,
-      },
+      filter: { name },
       pagination: { page, limit },
     });
 

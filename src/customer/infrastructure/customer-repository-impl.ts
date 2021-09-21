@@ -1,26 +1,32 @@
+import { injectable } from 'tsyringe';
+import { Repository, getManager } from 'typeorm';
+import { CustomerOrm } from './entity/customer';
 import { CustomerEntity } from '../domain/customer-entity';
 import { CustomerRepository } from '../domain/customer-repository';
-import customersMock from '../../../mock/customers.json';
 
-const customers = customersMock.map((customer) => CustomerEntity.create(customer, customer.id));
-
+@injectable()
 export class CustomerRepositoryImpl implements CustomerRepository {
+  private repository: Repository<CustomerOrm>;
+
+  constructor() {
+    this.repository = getManager().getRepository(CustomerOrm);
+  }
+
   async findById(id: string): Promise<CustomerEntity | undefined> {
-    return customers.find((customer) => customer.id === id);
+    const entity = await this.repository.findOne(id);
+    return entity?.toDomain();
   }
 
   async findAllById(ids: string[]): Promise<CustomerEntity[]> {
-    return customers.filter((customer) => ids.includes(customer.id));
+    const entities = await this.repository.findByIds(ids);
+    return entities.map((entity) => entity.toDomain());
   }
 
   async create(customer: CustomerEntity): Promise<void> {
-    customers.push(customer);
+    await this.repository.save(CustomerOrm.fromDomain(customer));
   }
 
   async update(customer: CustomerEntity): Promise<void> {
-    const index = customers.findIndex(({ id }) => id === customer.id);
-    if (index >= 0) {
-      customers[index] = customer;
-    }
+    await this.repository.save(CustomerOrm.fromDomain(customer));
   }
 }

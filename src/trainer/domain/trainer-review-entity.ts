@@ -30,6 +30,9 @@ export class TrainerReviewEntity implements TrainerReview {
     if (guardResult.error) {
       throw new Error(`Trainer review validation failed: ${guardResult.message}`);
     }
+    if (props.rating < 1 || props.rating > 5) {
+      throw new Error(`Trainer review validation failed: rating should be between 1 and 5 (rating ${props.rating})`);
+    }
     return new TrainerReviewEntity(props, id);
   }
 }

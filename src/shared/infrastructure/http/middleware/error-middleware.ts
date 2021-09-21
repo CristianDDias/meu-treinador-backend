@@ -12,7 +12,6 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
       message: 'Request validation failed',
       validation: Array.from(error.details.entries()).reduce((validations, [segment, joiError]) => {
         validations[segment] = {
-          keys: joiError.details.map((detail) => detail.path.join('.')),
           message: joiError.message,
         };
         return validations;

@@ -4,7 +4,7 @@ import { UnauthorizedError } from '../../../error';
 
 export class AuthMiddleware {
   create(auth: RouteAuth): RequestHandler {
-    return async (req, _res, next): Promise<void> => {
+    return async (req, _res, next) => {
       const token = req.headers.authorization;
       if (token !== 'MEU-TREINADOR-TOKEN' || !auth.authentication) {
         throw new UnauthorizedError('Invalid user');

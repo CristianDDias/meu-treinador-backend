@@ -23,6 +23,11 @@ export class CreateCustomerController implements Controller {
   constructor(private useCase: CreateCustomerUseCase) {}
 
   async execute(params: Record<string, any>) {
-    await this.useCase.execute(params as any);
+    await this.useCase.execute({
+      name: params.name,
+      email: params.email,
+      phone: params.phone,
+      favoriteTrainerIds: params.favoriteTrainerIds,
+    });
   }
 }

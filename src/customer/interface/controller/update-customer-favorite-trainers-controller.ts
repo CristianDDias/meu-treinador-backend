@@ -5,7 +5,7 @@ import { UpdateCustomerFavoriteTrainersUseCase } from '../../application/update-
 @injectable()
 export class UpdateCustomerFavoriteTrainersController implements Controller {
   route: Route = {
-    method: 'put',
+    method: 'patch',
     path: '/customers/:id/favorite-trainers',
     auth: {
       authentication: 'customer',

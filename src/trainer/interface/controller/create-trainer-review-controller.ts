@@ -23,6 +23,11 @@ export class CreateTrainerReviewController implements Controller {
   constructor(private useCase: CreateTrainerReviewUseCase) {}
 
   async execute(params: Record<string, any>) {
-    await this.useCase.execute(params as any);
+    await this.useCase.execute({
+      trainerId: params.trainerId,
+      customerId: params.customerId,
+      rating: params.rating,
+      description: params.description,
+    });
   }
 }

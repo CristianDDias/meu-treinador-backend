@@ -19,6 +19,9 @@ export interface SimplifiedTrainerDTO {
 }
 
 export interface DetailedTrainerDTO extends SimplifiedTrainerDTO {
+  gender: string;
+  ethnicity: string;
+  price: number;
   qualifications: string;
   specialties: string[];
   contacts: {
@@ -39,6 +42,7 @@ export interface DetailedTrainerDTO extends SimplifiedTrainerDTO {
     startTime: string;
     endTime: string;
   }[];
+  paymentMethods: string[];
 }
 
 export class TrainerDTOAdapter {
@@ -55,11 +59,15 @@ export class TrainerDTOAdapter {
   static toDetailedTrainerDTO(trainer: TrainerEntity): DetailedTrainerDTO {
     return {
       ...TrainerDTOAdapter.toSimplifiedTrainerDTO(trainer),
+      gender: trainer.gender,
+      ethnicity: trainer.ethnicity,
+      price: trainer.price,
       qualifications: trainer.qualifications,
       specialties: trainer.specialties,
       contacts: trainer.contacts,
       locations: trainer.locations,
       schedules: trainer.schedules,
+      paymentMethods: trainer.paymentMethods,
     };
   }
 }

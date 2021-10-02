@@ -4,12 +4,16 @@ export interface Trainer {
   name: string;
   description: string;
   image: string;
+  gender: Gender;
+  ethnicity: Ethnicity;
+  price: number;
   rating?: TrainerRating;
   qualifications: string;
   specialties: string[];
   contacts: TrainerContacts;
   locations: TrainerLocations;
   schedules?: TrainerSchedule[];
+  paymentMethods: PaymentMethod[];
 }
 
 export interface TrainerRating {
@@ -48,4 +52,24 @@ export interface TrainerReview {
   createdAt: Date;
 }
 
-type Weekday = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+type Weekday = 'Segunda' | 'Terça' | 'Quarta' | 'Quinta' | 'Sexta' | 'Sábado' | 'Domingo';
+
+type Gender = 'Feminino' | 'Masculino' | 'Não binário';
+
+type Ethnicity = 'Amarela' | 'Branca' | 'Indígena' | 'Parda' | 'Preta';
+
+type PaymentMethod = 'Boleto' | 'Cartão de crédito' | 'Cartão de débito' | 'Dinheiro' | 'PIX';
+
+export const weekdayOptions: Weekday[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+
+export const genderOptions: Gender[] = ['Feminino', 'Masculino', 'Não binário'];
+
+export const ethnicityOptions: Ethnicity[] = ['Amarela', 'Branca', 'Indígena', 'Parda', 'Preta'];
+
+export const paymentMethodOptions: PaymentMethod[] = [
+  'Boleto',
+  'Cartão de crédito',
+  'Cartão de débito',
+  'Dinheiro',
+  'PIX',
+];

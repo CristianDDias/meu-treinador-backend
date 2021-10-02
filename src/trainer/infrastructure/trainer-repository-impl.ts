@@ -9,6 +9,10 @@ import {
   TrainerQueryPagination,
 } from '../domain/trainer-repository';
 
+const toOptions = (list: string[]): string => {
+  return list.map((value) => `'${value}'`).join(',');
+};
+
 @injectable()
 export class TrainerRepositoryImpl implements TrainerRepository {
   private repository: Repository<TrainerOrm>;
@@ -51,7 +55,69 @@ export class TrainerRepositoryImpl implements TrainerRepository {
 
   private setQueryFilter(builder: SelectQueryBuilder<any>, filter?: TrainerQueryFilter): void {
     if (filter?.name) {
-      builder.andWhere(`data->>'name' iLike '%${filter.name}%'`);
+      builder.andWhere(`data->>'name' ilike '%${filter.name}%'`);
+    }
+
+    if (filter?.genders) {
+      builder.andWhere(`data->>'gender' in (${toOptions(filter.genders)})`);
+    }
+    if (filter?.ethnicities) {
+      builder.andWhere(`data->>'ethnicity' in (${toOptions(filter.ethnicities)})`);
+    }
+
+    if (filter?.specialties) {
+      builder.andWhere(`data->'specialties' ?| array[${toOptions(filter.specialties)}]`);
+    }
+    if (filter?.paymentMethods) {
+      builder.andWhere(`data->'paymentMethods' ?| array[${toOptions(filter.paymentMethods)}]`);
+    }
+
+    if (filter?.price?.min) {
+      builder.andWhere(`data->'price' >= '${filter.price.min}'`);
+    }
+    if (filter?.price?.max) {
+      builder.andWhere(`data->'price' <= '${filter.price.max}'`);
+    }
+
+    if (filter?.rating?.min) {
+      builder.andWhere(`data->'rating'->'value' >= '${filter.rating.min}'`);
+    }
+    if (filter?.rating?.max) {
+      builder.andWhere(`data->'rating'->'value' <= '${filter.rating.max}'`);
+    }
+
+    if (filter?.locations?.isProvidingOnlineService) {
+      builder.andWhere(`data->'locations'->'isProvidingOnlineService' = 'true'`);
+    }
+    if (filter?.locations?.isProvidingInHomeService) {
+      builder.andWhere(`data->'locations'->'isProvidingInHomeService' = 'true'`);
+    }
+
+    if (filter?.locations?.cities) {
+      builder.andWhere(
+        `data @? '$.locations.cities[*] ? (${filter.locations.cities
+          .map(({ city, state }) => `(@.city == "${city}" && @.state == "${state}")`)
+          .join(' || ')})'`
+      );
+    }
+
+    if (filter?.schedules?.weekdays) {
+      builder.andWhere(
+        `data @? '$.schedules[*].weekday ? (${filter.schedules.weekdays
+          .map((value) => `@ == "${value}"`)
+          .join(' || ')})'`
+      );
+    }
+
+    if (filter?.schedules?.startTime) {
+      builder.andWhere(
+        `data @? '$.schedules[*] ? (@.startTime >= "${filter.schedules.startTime}" || @.endTime >= "${filter.schedules.startTime}")'`
+      );
+    }
+    if (filter?.schedules?.endTime) {
+      builder.andWhere(
+        `data @? '$.schedules[*] ? (@.startTime <= "${filter.schedules.endTime}" || @.endTime <= "${filter.schedules.endTime}")'`
+      );
     }
   }
 

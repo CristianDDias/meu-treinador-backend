@@ -7,6 +7,28 @@ export interface TrainerQuery {
 
 export interface TrainerQueryFilter {
   name?: string;
+  specialties?: string[];
+  locations?: {
+    cities?: { city: string; state: string }[];
+    isProvidingOnlineService?: boolean;
+    isProvidingInHomeService?: boolean;
+  };
+  schedules?: {
+    weekdays?: string[];
+    startTime?: string;
+    endTime?: string;
+  };
+  rating?: {
+    min?: number;
+    max?: number;
+  };
+  price?: {
+    min?: number;
+    max?: number;
+  };
+  ethnicities?: string[];
+  genders?: string[];
+  paymentMethods?: string[];
 }
 
 export interface TrainerQueryPagination {

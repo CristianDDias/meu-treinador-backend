@@ -15,7 +15,12 @@ export interface Config {
 }
 
 export const loadConfig = (): Config => {
-  dotenv.config();
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (!isProduction) {
+    dotenv.config();
+  }
+
+  const fileExtension = isProduction ? 'js' : 'ts';
   return {
     port: Number(process.env.PORT),
     database: {
@@ -24,8 +29,8 @@ export const loadConfig = (): Config => {
       port: Number(process.env.DATABASE_PORT),
       username: String(process.env.DATABASE_USERNAME),
       password: String(process.env.DATABASE_PASSWORD),
-      entities: [`**/infrastructure/entity/*.ts`],
-      migrations: [`**/infrastructure/migration/*.ts`],
+      entities: [`**/infrastructure/entity/*.${fileExtension}`],
+      migrations: [`**/infrastructure/migration/*.${fileExtension}`],
       logging: process.env.DATABASE_LOGGING === 'true',
     },
   };

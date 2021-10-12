@@ -1,13 +1,13 @@
 import { injectable } from 'tsyringe';
 import { GetTrainerByIdUseCase } from '../../application/get-trainer-by-id-use-case';
-import { GetTrainersByIdUseCase } from '../../application/get-trainers-by-id-use-case';
+import { GetTrainersByIdsUseCase } from '../../application/get-trainers-by-ids-use-case';
 import { TrainerDTOAdapter } from '../dto/trainer-dto';
 
 @injectable()
 export class TrainerComponent {
   constructor(
     private getTrainerByIdUseCase: GetTrainerByIdUseCase,
-    private getTrainersByIdUseCase: GetTrainersByIdUseCase
+    private getTrainersByIdsUseCase: GetTrainersByIdsUseCase
   ) {}
 
   async getTrainerById(id: string) {
@@ -15,8 +15,8 @@ export class TrainerComponent {
     return TrainerDTOAdapter.toSimplifiedTrainerDTO(trainer);
   }
 
-  async getTrainersById(ids: string[]) {
-    const trainers = await this.getTrainersByIdUseCase.execute(ids);
+  async getTrainersByIds(ids: string[]) {
+    const trainers = await this.getTrainersByIdsUseCase.execute(ids);
     return trainers.map(TrainerDTOAdapter.toSimplifiedTrainerDTO);
   }
 }

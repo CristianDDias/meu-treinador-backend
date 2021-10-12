@@ -1,13 +1,13 @@
 import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Trainer } from '../../domain/trainer-interface';
 import { TrainerEntity } from '../../domain/trainer-entity';
+import { Trainer } from '../../domain/trainer-interface';
 
 @Entity('trainer')
 export class TrainerOrm {
-  @PrimaryColumn()
-  id: string;
+  @PrimaryColumn({ type: 'varchar' })
+  id: TrainerEntity['id'];
 
-  @Column('jsonb')
+  @Column({ type: 'jsonb' })
   data: Trainer;
 
   @CreateDateColumn({ name: 'created_at' })
@@ -33,6 +33,7 @@ export class TrainerOrm {
       locations: trainer.locations,
       schedules: trainer.schedules,
       paymentMethods: trainer.paymentMethods,
+      hiringFormTemplateId: trainer.hiringFormTemplateId,
     };
     return orm;
   }
@@ -53,6 +54,7 @@ export class TrainerOrm {
         locations: this.data.locations,
         schedules: this.data.schedules,
         paymentMethods: this.data.paymentMethods,
+        hiringFormTemplateId: this.data.hiringFormTemplateId,
       },
       this.id
     );

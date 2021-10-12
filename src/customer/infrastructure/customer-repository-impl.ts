@@ -17,7 +17,7 @@ export class CustomerRepositoryImpl implements CustomerRepository {
     return entity?.toDomain();
   }
 
-  async findAllById(ids: string[]): Promise<CustomerEntity[]> {
+  async findAllByIds(ids: string[]): Promise<CustomerEntity[]> {
     const entities = await this.repository.findByIds(ids);
     return entities.map((entity) => entity.toDomain());
   }

@@ -7,8 +7,8 @@ import { TrainerDTOAdapter } from '../dto/trainer-dto';
 @injectable()
 export class GetTrainersController implements Controller {
   route: Route = {
-    method: 'patch',
-    path: '/trainers',
+    method: 'post',
+    path: '/trainers/list',
     auth: {
       authentication: 'customer',
     },

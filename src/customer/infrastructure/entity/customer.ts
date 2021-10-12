@@ -1,13 +1,13 @@
 import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Customer } from '../../domain/customer-interface';
 import { CustomerEntity } from '../../domain/customer-entity';
+import { Customer } from '../../domain/customer-interface';
 
 @Entity('customer')
 export class CustomerOrm {
-  @PrimaryColumn()
-  id: string;
+  @PrimaryColumn({ type: 'varchar' })
+  id: CustomerEntity['id'];
 
-  @Column('jsonb')
+  @Column({ type: 'jsonb' })
   data: Customer;
 
   @CreateDateColumn({ name: 'created_at' })

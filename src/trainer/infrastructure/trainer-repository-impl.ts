@@ -34,7 +34,7 @@ export class TrainerRepositoryImpl implements TrainerRepository {
     return entities.map((entity) => entity.toDomain());
   }
 
-  async findAllById(ids: string[]): Promise<TrainerEntity[]> {
+  async findAllByIds(ids: string[]): Promise<TrainerEntity[]> {
     const entities = await this.repository.findByIds(ids);
     return entities.map((entity) => entity.toDomain());
   }

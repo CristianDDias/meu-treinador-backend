@@ -15,6 +15,6 @@ export class GetCustomerFavoriteTrainersUseCase {
     if (!customer) {
       throw new NotFoundError(`Customer ID ${id} not found.`);
     }
-    return await this.trainerComponent.getTrainersById(customer.favoriteTrainerIds);
+    return await this.trainerComponent.getTrainersByIds(customer.favoriteTrainerIds);
   }
 }

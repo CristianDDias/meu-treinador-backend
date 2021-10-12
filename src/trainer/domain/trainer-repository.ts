@@ -39,7 +39,7 @@ export interface TrainerQueryPagination {
 export interface TrainerRepository {
   findById(id: string): Promise<TrainerEntity | undefined>;
   findAll(query?: TrainerQuery): Promise<TrainerEntity[]>;
-  findAllById(ids: string[]): Promise<TrainerEntity[]>;
+  findAllByIds(ids: string[]): Promise<TrainerEntity[]>;
   count(filter?: TrainerQueryFilter): Promise<number>;
   create(trainer: TrainerEntity): Promise<void>;
   update(trainer: TrainerEntity): Promise<void>;

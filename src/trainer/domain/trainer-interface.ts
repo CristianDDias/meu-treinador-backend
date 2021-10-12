@@ -1,4 +1,4 @@
-// TODO: Create value objects or classes
+// #TODO: Create value objects or classes
 
 export interface Trainer {
   name: string;
@@ -14,6 +14,7 @@ export interface Trainer {
   locations: TrainerLocations;
   schedules?: TrainerSchedule[];
   paymentMethods: PaymentMethod[];
+  hiringFormTemplateId?: string;
 }
 
 export interface TrainerRating {
@@ -52,24 +53,79 @@ export interface TrainerReview {
   createdAt: Date;
 }
 
-type Weekday = 'Segunda' | 'Terça' | 'Quarta' | 'Quinta' | 'Sexta' | 'Sábado' | 'Domingo';
+export interface TrainerFormQuestion {
+  type: QuestionType;
+  question: string;
+  options?: string[];
+}
 
-type Gender = 'Feminino' | 'Masculino' | 'Não binário';
+export interface TrainerFormAnswer extends TrainerFormQuestion {
+  answer: string | string[];
+}
 
-type Ethnicity = 'Amarela' | 'Branca' | 'Indígena' | 'Parda' | 'Preta';
+export interface TrainerFormTemplate {
+  trainerId: string;
+  name: string;
+  form: TrainerFormQuestion[];
+}
 
-type PaymentMethod = 'Boleto' | 'Cartão de crédito' | 'Cartão de débito' | 'Dinheiro' | 'PIX';
+export interface TrainerRequest {
+  trainerId: string;
+  customerId: string;
+  status: TrainerRequestStatus;
+  form: TrainerFormAnswer[];
+}
 
-export const weekdayOptions: Weekday[] = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+export enum TrainerRequestStatus {
+  Pending = 'pending',
+  Accepted = 'accepted',
+  Declined = 'declined',
+}
 
-export const genderOptions: Gender[] = ['Feminino', 'Masculino', 'Não binário'];
+export enum QuestionType {
+  SingleChoice = 'single-choice',
+  MultipleChoice = 'multiple-choice',
+  Text = 'text',
+}
 
-export const ethnicityOptions: Ethnicity[] = ['Amarela', 'Branca', 'Indígena', 'Parda', 'Preta'];
+export enum Weekday {
+  Segunda = 'Segunda',
+  Terca = 'Terça',
+  Quarta = 'Quarta',
+  Quinta = 'Quinta',
+  Sexta = 'Sexta',
+  Sabado = 'Sábado',
+  Domingo = 'Domingo',
+}
 
-export const paymentMethodOptions: PaymentMethod[] = [
-  'Boleto',
-  'Cartão de crédito',
-  'Cartão de débito',
-  'Dinheiro',
-  'PIX',
-];
+export enum Gender {
+  Feminino = 'Feminino',
+  Masculino = 'Masculino',
+  NaoBinario = 'Não binário',
+}
+
+export enum Ethnicity {
+  Amarela = 'Amarela',
+  Branca = 'Branca',
+  Indigena = 'Indígena',
+  Parda = 'Parda',
+  Preta = 'Preta',
+}
+
+export enum PaymentMethod {
+  Boleto = 'Boleto',
+  CartaoCredito = 'Cartão de crédito',
+  CartaoDebito = 'Cartão de débito',
+  Dinheiro = 'Dinheiro',
+  PIX = 'PIX',
+}
+
+export const weekdayOptions = Object.values(Weekday);
+
+export const genderOptions = Object.values(Gender);
+
+export const ethnicityOptions = Object.values(Ethnicity);
+
+export const paymentMethodOptions = Object.values(PaymentMethod);
+
+export const questionTypeOptions = Object.values(QuestionType);

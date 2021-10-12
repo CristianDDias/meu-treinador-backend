@@ -13,7 +13,7 @@ export class GetTrainerReviewsUseCase {
     const reviews = await this.trainerReviewRepository.findAllByTrainerId(trainerId);
 
     const customerIds = reviews.map((review) => review.customerId);
-    const customers = await this.customerComponent.getCustomersById(customerIds);
+    const customers = await this.customerComponent.getCustomersByIds(customerIds);
     const customerNameById = customers.reduce((map, customer) => {
       map[customer.id] = customer.name;
       return map;

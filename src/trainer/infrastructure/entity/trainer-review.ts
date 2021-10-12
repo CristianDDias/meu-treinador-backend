@@ -3,23 +3,23 @@ import { TrainerReviewEntity } from '../../domain/trainer-review-entity';
 
 @Entity('trainer_review')
 export class TrainerReviewOrm {
-  @PrimaryColumn()
-  id: string;
+  @PrimaryColumn({ type: 'varchar' })
+  id: TrainerReviewEntity['id'];
 
-  @Column({ name: 'trainer_id' })
-  trainerId: string;
+  @Column({ type: 'varchar', name: 'trainer_id' })
+  trainerId: TrainerReviewEntity['trainerId'];
 
-  @Column({ name: 'customer_id' })
-  customerId: string;
+  @Column({ type: 'varchar', name: 'customer_id' })
+  customerId: TrainerReviewEntity['customerId'];
 
-  @Column()
-  rating: number;
+  @Column({ type: 'real' })
+  rating: TrainerReviewEntity['rating'];
 
-  @Column()
-  description: string;
+  @Column({ type: 'varchar' })
+  description: TrainerReviewEntity['description'];
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt: TrainerReviewEntity['createdAt'];
 
   static fromDomain(review: TrainerReviewEntity): TrainerReviewOrm {
     const orm = new TrainerReviewOrm();

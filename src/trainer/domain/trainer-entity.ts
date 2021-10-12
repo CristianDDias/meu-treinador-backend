@@ -17,6 +17,7 @@ export class TrainerEntity implements Trainer {
   locations: Trainer['locations'];
   schedules: Trainer['schedules'];
   paymentMethods: Trainer['paymentMethods'];
+  hiringFormTemplateId: Trainer['hiringFormTemplateId'];
 
   private constructor(props: Trainer, id?: string) {
     this.id = id ?? uuid();
@@ -33,6 +34,7 @@ export class TrainerEntity implements Trainer {
     this.locations = props.locations;
     this.schedules = props.schedules;
     this.paymentMethods = props.paymentMethods;
+    this.hiringFormTemplateId = props.hiringFormTemplateId;
   }
 
   static create(props: Trainer, id?: string): TrainerEntity {
@@ -55,6 +57,14 @@ export class TrainerEntity implements Trainer {
     if (!id && props.rating) {
       throw new Error('Trainer validation failed: rating should be empty for a new trainer');
     }
+
+    // #TODO: Add more validations:
+    //        - gender options
+    //        - ethnicity options
+    //        - paymentMethods options
+    //        - locations
+    //        - schedules
+
     return new TrainerEntity(props, id);
   }
 }

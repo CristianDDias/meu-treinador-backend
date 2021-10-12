@@ -10,8 +10,9 @@
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "build": "tsc -p ./tsconfig.json",
-    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run",
-    "migration:generate": "typeorm migration:create -n"
+    "type-check": "tsc -p ./tsconfig.json --noEmit --diagnostics",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "migration:create": "typeorm migration:create -n"
   },
   "keywords": [],
   "author": "",

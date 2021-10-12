@@ -6,13 +6,15 @@ import { CreateTrainerReviewUseCase } from '../../application/create-trainer-rev
 export class CreateTrainerReviewController implements Controller {
   route: Route = {
     method: 'post',
-    path: '/trainer-reviews',
+    path: '/trainers/:id/reviews',
     auth: {
       authentication: 'customer',
     },
     schema: {
+      params: {
+        id: Joi.string().uuid(),
+      },
       body: {
-        trainerId: Joi.string().uuid().required(),
         customerId: Joi.string().uuid().required(),
         rating: Joi.number().min(1).max(5).required(),
         description: Joi.string().required(),
@@ -24,7 +26,7 @@ export class CreateTrainerReviewController implements Controller {
 
   async execute(params: Record<string, any>) {
     await this.useCase.execute({
-      trainerId: params.trainerId,
+      trainerId: params.id,
       customerId: params.customerId,
       rating: params.rating,
       description: params.description,

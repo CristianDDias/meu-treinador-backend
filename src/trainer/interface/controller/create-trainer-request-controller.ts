@@ -27,7 +27,7 @@ export class CreateTrainerRequestController implements Controller {
               answer: Joi.required().when('type', {
                 switch: [
                   { is: QuestionType.MultipleChoice, then: Joi.array().items(Joi.string().required()) },
-                  { is: QuestionType.SingleChoice, then: Joi.array().items(Joi.string().required()).length(1) },
+                  { is: QuestionType.SingleChoice, then: Joi.string() },
                   { is: QuestionType.Text, then: Joi.string() },
                 ],
               }),

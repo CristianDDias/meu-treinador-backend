@@ -53,14 +53,11 @@ export interface TrainerReview {
   createdAt: Date;
 }
 
-export interface TrainerFormQuestion {
-  type: QuestionType;
-  question: string;
-  options?: string[];
-}
-
-export interface TrainerFormAnswer extends TrainerFormQuestion {
-  answer: string | string[];
+export interface TrainerRequest {
+  trainerId: string;
+  customerId: string;
+  status: TrainerRequestStatus;
+  form: TrainerFormAnswer[];
 }
 
 export interface TrainerFormTemplate {
@@ -69,12 +66,42 @@ export interface TrainerFormTemplate {
   form: TrainerFormQuestion[];
 }
 
-export interface TrainerRequest {
-  trainerId: string;
-  customerId: string;
-  status: TrainerRequestStatus;
-  form: TrainerFormAnswer[];
-}
+export type TrainerFormQuestion =
+  | {
+      type: QuestionType.MultipleChoice;
+      question: string;
+      options: string[];
+    }
+  | {
+      type: QuestionType.SingleChoice;
+      question: string;
+      options: string[];
+    }
+  | {
+      type: QuestionType.Text;
+      question: string;
+      options: undefined;
+    };
+
+export type TrainerFormAnswer =
+  | {
+      type: QuestionType.MultipleChoice;
+      question: string;
+      answer: string[];
+      options: string[];
+    }
+  | {
+      type: QuestionType.SingleChoice;
+      question: string;
+      answer: string;
+      options: string[];
+    }
+  | {
+      type: QuestionType.Text;
+      question: string;
+      answer: string;
+      options: undefined;
+    };
 
 export enum TrainerRequestStatus {
   Pending = 'pending',

@@ -25,9 +25,6 @@ export class TrainerFormTemplateEntity implements TrainerFormTemplate {
       throw new Error(`Trainer form template validation failed: ${guardResult.message}`);
     }
     for (const question of props.form) {
-      if (!questionTypeOptions.includes(question.type)) {
-        throw new Error(`Trainer form template validation failed: question of type ${question.type} is not allowed`);
-      }
       const guardResult = Guard.againstEmptyBulk([
         { value: question.type, key: 'question.type' },
         { value: question.question, key: 'question.question' },
@@ -35,17 +32,12 @@ export class TrainerFormTemplateEntity implements TrainerFormTemplate {
       if (guardResult.error) {
         throw new Error(`Trainer form template validation failed: ${guardResult.message}`);
       }
+      if (!questionTypeOptions.includes(question.type)) {
+        throw new Error(`Trainer form template validation failed: question of type ${question.type} is not allowed`);
+      }
       if (question.type === QuestionType.MultipleChoice || question.type === QuestionType.SingleChoice) {
         if (!question.options?.length) {
-          throw new Error(
-            `Trainer form template validation failed: question of type ${question.type} should have options`
-          );
-        }
-      } else {
-        if (question.options?.length) {
-          throw new Error(
-            `Trainer form template validation failed: question of type ${question.type} should not have options`
-          );
+          throw new Error(`Trainer form template validation failed: question should have options`);
         }
       }
     }

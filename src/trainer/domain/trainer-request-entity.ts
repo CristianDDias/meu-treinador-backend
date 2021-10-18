@@ -43,20 +43,17 @@ export class TrainerRequestEntity implements TrainerRequest {
         if (!question.options?.length) {
           throw new Error('Trainer request validation failed: question should have options');
         }
-        if (!Array.isArray(question.answer)) {
-          throw new Error('Trainer request validation failed: answer should be an array');
-        }
+      }
+      if (question.type === QuestionType.MultipleChoice) {
         for (const answer of question.answer) {
           if (!question.options.includes(answer)) {
             throw new Error('Trainer request validation failed: answer should be one of the options');
           }
         }
-      } else {
-        if (question.options?.length) {
-          throw new Error('Trainer request validation failed: question should not have options');
-        }
-        if (Array.isArray(question.answer)) {
-          throw new Error('Trainer request validation failed: answer should not be an array');
+      }
+      if (question.type === QuestionType.SingleChoice) {
+        if (!question.options.includes(question.answer)) {
+          throw new Error('Trainer request validation failed: answer should be one of the options');
         }
       }
     }

@@ -17,6 +17,10 @@ export class TrainerRequestRepositoryImpl implements TrainerRequestRepository {
     await this.repository.save(TrainerRequestOrm.fromDomain(request));
   }
 
+  async update(request: TrainerRequestEntity): Promise<void> {
+    await this.repository.save(TrainerRequestOrm.fromDomain(request));
+  }
+
   async findCurrentRequest({
     trainerId,
     customerId,

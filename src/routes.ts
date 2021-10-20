@@ -2,10 +2,12 @@ import { container } from 'tsyringe';
 import { Router } from 'express';
 import { ControllerRouter } from './shared/infrastructure/http/controller/controller-router';
 
+import { AcceptTrainerRequestController } from './trainer/interface/controller/accept-trainer-request-controller';
 import { CreateTrainerController } from './trainer/interface/controller/create-trainer-controller';
 import { CreateTrainerFormTemplateController } from './trainer/interface/controller/create-trainer-form-template-controller';
 import { CreateTrainerRequestController } from './trainer/interface/controller/create-trainer-request-controller';
 import { CreateTrainerReviewController } from './trainer/interface/controller/create-trainer-review-controller';
+import { DeclineTrainerRequestController } from './trainer/interface/controller/decline-trainer-request-controller';
 import { GetTrainerByIdController } from './trainer/interface/controller/get-trainer-by-id-controller';
 import { GetTrainerHiringFormTemplateController } from './trainer/interface/controller/get-trainer-hiring-form-template-controller';
 import { GetTrainerRequestController } from './trainer/interface/controller/get-trainer-request-controller';
@@ -21,10 +23,12 @@ import { UpdateCustomerFavoriteTrainersController } from './customer/interface/c
 export const createRouter = (): Router[] => {
   const controllerRouter = container.resolve(ControllerRouter);
   return [
+    controllerRouter.creteRoute(container.resolve(AcceptTrainerRequestController)),
     controllerRouter.creteRoute(container.resolve(CreateTrainerController)),
     controllerRouter.creteRoute(container.resolve(CreateTrainerFormTemplateController)),
     controllerRouter.creteRoute(container.resolve(CreateTrainerRequestController)),
     controllerRouter.creteRoute(container.resolve(CreateTrainerReviewController)),
+    controllerRouter.creteRoute(container.resolve(DeclineTrainerRequestController)),
     controllerRouter.creteRoute(container.resolve(GetTrainerByIdController)),
     controllerRouter.creteRoute(container.resolve(GetTrainerHiringFormTemplateController)),
     controllerRouter.creteRoute(container.resolve(GetTrainerRequestController)),

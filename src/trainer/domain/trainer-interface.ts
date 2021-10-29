@@ -136,7 +136,7 @@ export enum Ethnicity {
   Branca = 'Branca',
   Indigena = 'Indígena',
   Parda = 'Parda',
-  Preta = 'Preta',
+  Preta = 'Preta/Negra',
 }
 
 export enum PaymentMethod {

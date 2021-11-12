@@ -6,6 +6,6 @@ export class GetTrainerRequestUseCase {
   constructor(@inject(TrainerRequestRepositoryToken) private trainerRequestRepository: TrainerRequestRepository) {}
 
   async execute({ trainerId, customerId }: { trainerId: string; customerId: string }) {
-    return await this.trainerRequestRepository.findCurrentRequest({ trainerId, customerId });
+    return await this.trainerRequestRepository.findCurrent({ trainerId, customerId });
   }
 }

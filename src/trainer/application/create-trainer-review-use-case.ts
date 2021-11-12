@@ -20,7 +20,7 @@ export class CreateTrainerReviewUseCase {
     if (!trainer) {
       throw new NotFoundError(`Trainer ID ${review.trainerId} not found.`);
     }
-    await this.customerComponent.getCustomerById(review.customerId); // Throws an error when not found
+    await this.customerComponent.getCustomerByIdOrFail(review.customerId);
 
     await this.trainerReviewRepository.create(TrainerReviewEntity.create({ ...review, createdAt: new Date() }));
     await this.updateTrainerRating(trainer);

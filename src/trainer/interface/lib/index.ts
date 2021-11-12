@@ -10,7 +10,7 @@ export class TrainerComponent {
     private getTrainersByIdsUseCase: GetTrainersByIdsUseCase
   ) {}
 
-  async getTrainerById(id: string) {
+  async getTrainerByIdOrFail(id: string) {
     const trainer = await this.getTrainerByIdUseCase.execute(id);
     return TrainerDTOAdapter.toSimplifiedTrainerDTO(trainer);
   }

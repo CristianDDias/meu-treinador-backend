@@ -19,9 +19,9 @@ export class CreateTrainerRequestUseCase {
     if (!trainer) {
       throw new NotFoundError(`Trainer ID ${request.trainerId} not found.`);
     }
-    await this.customerComponent.getCustomerById(request.customerId); // Throws an error when not found
+    await this.customerComponent.getCustomerByIdOrFail(request.customerId);
 
-    const currentRequest = await this.trainerRequestRepository.findCurrentRequest({
+    const currentRequest = await this.trainerRequestRepository.findCurrent({
       trainerId: request.trainerId,
       customerId: request.customerId,
     });

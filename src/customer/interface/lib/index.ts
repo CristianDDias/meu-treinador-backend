@@ -10,7 +10,7 @@ export class CustomerComponent {
     private getCustomersByIdsUseCase: GetCustomersByIdsUseCase
   ) {}
 
-  async getCustomerById(id: string) {
+  async getCustomerByIdOrFail(id: string) {
     const customer = await this.getCustomerByIdUseCase.execute(id);
     return CustomerDTOAdapter.toCustomerDTO(customer);
   }

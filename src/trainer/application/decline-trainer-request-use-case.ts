@@ -8,7 +8,7 @@ export class DeclineTrainerRequestUseCase {
   constructor(@inject(TrainerRequestRepositoryToken) private trainerRequestRepository: TrainerRequestRepository) {}
 
   async execute({ trainerId, customerId }: { trainerId: string; customerId: string }) {
-    const request = await this.trainerRequestRepository.findCurrentRequest({ trainerId, customerId });
+    const request = await this.trainerRequestRepository.findCurrent({ trainerId, customerId });
     if (!request) {
       throw new NotFoundError(`Trainer request for trainer ID ${trainerId} and customer ID ${customerId} not found.`);
     }

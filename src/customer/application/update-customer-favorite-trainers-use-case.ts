@@ -15,7 +15,7 @@ export class UpdateCustomerFavoriteTrainersUseCase {
     if (!customer) {
       throw new NotFoundError(`Customer ID ${id} not found.`);
     }
-    await this.trainerComponent.getTrainerById(trainerId); // Throws an error when not found
+    await this.trainerComponent.getTrainerByIdOrFail(trainerId);
 
     if (isFavorite) {
       customer.addFavoriteTrainer(trainerId);
